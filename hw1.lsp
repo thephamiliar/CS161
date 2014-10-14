@@ -2,20 +2,14 @@
 ;; arguments N and TREE, and checks whether number N appears in the ordered tree TREE.
 (defun TREE-CONTAINS (N TREE)
 ;	"Checks whether number N appears in ordered tree TREE."
-	(cond
+	(cond ((NULL TREE) NIL)
 		((numberp TREE)
 			(cond
 				((= N TREE) t)
 				(t NIL)
 			)
 		)
-		((numberp (cadr TREE))
-			(cond
-				((= N (cadr TREE)) t)
-				(t (or (TREE-CONTAINS N (car TREE)) (TREE-CONTAINS N (cdr TREE))))
-			)
-		)
-		(t NIL)
+		(t (or (TREE-CONTAINS N (car TREE)) (TREE-CONTAINS N (cdr TREE))))
 	)
 )
 
@@ -28,10 +22,10 @@
 			; return m
 		; else
 			; return TREE-MAX with right subtree
-		(cond
+		(cond ((NULL TREE) NIL)
 			((numberp TREE) TREE)
 			((equal NIL (cdr (cdr TREE))) (car TREE))
-			(t (TREE-MAX (cdr (cdr TREE))))
+			(t (TREE-MAX (car (cdr (cdr TREE)))))
 		)
 )
 
