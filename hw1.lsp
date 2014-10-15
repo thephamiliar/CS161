@@ -40,6 +40,17 @@
 			; append m to list
 			; TREE-ORDER with right subtree
 		; return list
+		(cond ((NULL TREE) NIL)
+			((numberp TREE) (list TREE))
+			((NULL (cdr TREE)) TREE)
+			(t
+				(append
+					(TREE-ORDER(car TREE))
+					(list (car(cdr TREE)))
+					(TREE-ORDER (cdr(cdr TREE)))
+				)
+			)
+		)
 )
 
 ;;4. Write a single LISP function, called SUB-LIST, that takes a list L and two 
