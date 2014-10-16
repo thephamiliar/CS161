@@ -1,0 +1,59 @@
+TEST CASES FOR 1
+Break 1 [7]> (TREE-CONTAINS 3 '((1 2 3) 7 8))
+T
+Break 1 [7]> (TREE-CONTAINS 4 '((1 2 3) 7 8))
+NIL
+
+TEST CASES FOR 2
+Break 3 [9]> (TREE-MAX '((1 2 3) 7 8))
+8
+
+TEST CASES FOR 3
+Break 3 [9]> (TREE-ORDER 3)
+(3)
+Break 3 [9]> (TREE-ORDER '((1 2 3) 7 8))
+(1 2 3 7 8)
+
+TEST CASES FOR 4
+Break 4 [10]> (SUB-LIST '(a b c d) 0 3)
+(A B C)
+Break 4 [10]> (SUB-LIST '(a b c d) 3 1) 
+(D)
+(SUB-LIST '(a b c d) 2 0)
+NIL
+
+TEST CASES FOR 5
+Break 5 [11]> (SPLIT-LIST '(a b c d))
+((A B) (C D))
+Break 5 [11]> (SPLIT-LIST '(a b c d e))
+((A B) (C D E))
+Break 5 [11]> (SPLIT-LIST '(a b c d e f))
+((A B C) (D E F))
+
+TEST CASES FOR 6
+Break 5 [11]>  (LIST2BTREE '(1))
+1
+Break 5 [11]>  (LIST2BTREE '(1 2))
+(1 2)
+Break 5 [11]>  (LIST2BTREE '(1 2 3))
+(1 (2 3))
+Break 5 [11]> (LIST2BTREE '(1 2 3 4))
+((1 2) (3 4))
+Break 5 [11]>  (LIST2BTREE '(1 2 3 4 5 6 7)) 
+((1 (2 3)) ((4 5) (6 7)))
+Break 5 [11]>  (LIST2BTREE '(1 2 3 4 5 6 7 8))
+(((1 2) (3 4)) ((5 6) (7 8)))
+
+TEST CASES FOR 7
+Break 5 [11]>  (BTREE2LIST 1)
+(1)
+Break 5 [11]>  (BTREE2LIST '(1 2)) 
+(1 2)
+Break 5 [11]>  (BTREE2LIST '(1 (2 3)))
+(1 2 3)
+Break 5 [11]>  (BTREE2LIST '((1 2) (3 4)))
+(1 2 3 4)
+Break 5 [11]> (BTREE2LIST '((1 (2 3)) ((4 5) (6 7))))
+(1 2 3 4 5 6 7)
+Break 5 [11]>  (BTREE2LIST '(((1 2) (3 4)) ((5 6) (7 8)))) 
+(1 2 3 4 5 6 7 8)
