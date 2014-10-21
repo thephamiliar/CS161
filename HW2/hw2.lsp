@@ -4,7 +4,10 @@
 ; single, top-level list of the terminal nodes in the order they
 ; would be visited by a left-to-right depth-first search.
 (defun DFS (L)
-
+	(cond ((NULL L) NIL)
+		((atom L) (list L))
+		(t (append (DFS (car L)) (DFS (cdr L))))
+	)
 )
 
 ; 2. Write a set of pure LISP functions that implement depth-first
@@ -15,8 +18,28 @@
 ; would be visited by a left-to-right depth-first iterative-deepening
 ; search. Note that those nodes that are visited in multiple iterations
 ; will appear multiple times in the output list.
-(defun DFID (L DEPTH)
 
+; Limited depth first search
+(defun LDFS(L DEPTH)
+	(cond ((NULL L) NIL)
+		((< DEPTH 0) NIL)
+		((atom L) (list L))
+		(t (append (LDFS (car L) (- DEPTH 1)) (LDFS (cdr L) DEPTH)))
+	)
+)
+
+; iterative deepening DFS
+; calls limited depth first search for each level until depth
+(defun IDS (L DEPTH LEVEL)
+	(cond ((NULL L) NIL)
+		((< DEPTH LEVEL) NIL)
+		(t (append (LDFS L LEVEL) (IDS L DEPTH (+ LEVEL 1))))
+	)
+)
+
+; initializes iterative deepening DFS
+(defun DFID (L DEPTH)
+	(IDS L DEPTH 0)
 )
 
 ; These functions implement a depth-first solver for the missionary-cannibal
@@ -54,7 +77,11 @@
 ; FINAL-STATE takes a single argument s, the current state, and returns T if it
 ; is the goal state (3 3 NIL) and NIL otherwise.
 (defun final-state (s)
-  ...)
+	(cond ((NULL s) NIL)
+		((equal s '(3 3 NIL)) T)
+		(t NIL)
+	)
+)
 
 ; NEXT-STATE returns the state that results from applying an operator to the
 ; current state. It takes three arguments: the current state (s), a number of
@@ -69,21 +96,39 @@
 ; NOTE that next-state returns a list containing the successor state (which is
 ; itself a list); the return should look something like ((1 1 T)).
 (defun next-state (s m c)
-  ...)
+	(cond ((NULL s) NIL)
+		; if there are more c than m on same side
+		((< (- (first s) m) (- (second s) c)) NIL)
+		; if there are more c than m on other side
+		((< (+ (- 3 (first s)) m) (+ (- 3 (second s)) c)) NIL)
+		; if move more m and c than are on the side of the river
+		((or (< (first s) m) ( < (second s) c)) NIL)
+		; else return next state
+		(t (list (list (+ (- 3 (first s)) m) (+ (- 3 (second s)) c) (not (third s)) )))
+	)
+)
 
 ; SUCC-FN returns all of the possible legal successor states to the current
 ; state. It takes a single argument (s), which encodes the current state, and
 ; returns a list of each state that can be reached by applying legal operators
 ; to the current state.
 (defun succ-fn (s)
-  ...)
+	(append
+		(next-state s 1 0)
+		(next-state s 0 1)
+		(next-state s 1 1)
+		(next-state s 2 0)
+		(next-state s 0 2)
+	)
+)
 
 ; ON-PATH checks whether the current state is on the stack of states visited by
 ; this depth-first search. It takes two arguments: the current state (s) and the
 ; stack of states visited by MC-DFS (states). It returns T if s is a member of
 ; states and NIL otherwise.
 (defun on-path (s states)
-  ...)
+
+)
 
 ; MULT-DFS is a helper function for MC-DFS. It takes two arguments: a stack of
 ; states from the initial state to the current state (path), and the legal
@@ -95,7 +140,8 @@
 ; complete path from the initial state to the goal state. Otherwise, it returns
 ; NIL.
 (defun mult-dfs (states path)
-  ...)
+
+  )
 
 ; MC-DFS does a depth first search from a given state to the goal state. It
 ; takes two arguments: a state (S) and the path from the initial state to S
@@ -106,7 +152,8 @@
 ; ensuring that the depth-first search does not revisit a node already on the
 ; search path.
 (defun mc-dfs (s path)
-  ...)
+	
+  )
 
 
 
