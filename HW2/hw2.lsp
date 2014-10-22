@@ -98,9 +98,9 @@
 (defun next-state (s m c)
 	(cond ((NULL s) NIL)
 		; if there are more c than m on same side
-		((< (- (first s) m) (- (second s) c)) NIL)
+		 ((and (< (- (first s) m) (- (second s) c)) (not (= (- (first s) m) 0))) NIL)
 		; if there are more c than m on other side
-		((< (+ (- 3 (first s)) m) (+ (- 3 (second s)) c)) NIL)
+		 ((and (< (+ (- 3 (first s)) m) (+ (- 3 (second s)) c)) (not (= (+ (- 3 (first s)) m) 0))) NIL)
 		; if move more m and c than are on the side of the river
 		((or (< (first s) m) ( < (second s) c)) NIL)
 		; else return next state
@@ -127,7 +127,10 @@
 ; stack of states visited by MC-DFS (states). It returns T if s is a member of
 ; states and NIL otherwise.
 (defun on-path (s states)
-
+	(cond ((NULL states) NIL)
+		((equal s (first states)) T)
+		(t (on-path s (cdr states)))
+	)
 )
 
 ; MULT-DFS is a helper function for MC-DFS. It takes two arguments: a stack of
@@ -140,7 +143,13 @@
 ; complete path from the initial state to the goal state. Otherwise, it returns
 ; NIL.
 (defun mult-dfs (states path)
-
+	; if reached final state, return path
+	; else return nil
+	(cond ((NULL states) NIL)
+		((final-state (car states)) (append path (list (car states))))
+		((not (equal (mc-dfs (car states) path) NIL)) (mc-dfs (car states) path))
+		(t (mult-dfs (cdr states) path))
+	)
   )
 
 ; MC-DFS does a depth first search from a given state to the goal state. It
@@ -152,9 +161,14 @@
 ; ensuring that the depth-first search does not revisit a node already on the
 ; search path.
 (defun mc-dfs (s path)
-	
-  )
-
+	; if s is the initial state, path is nil
+	; check if s is already the goal state
+	; check that did not revisit node
+	(cond ((or (NULL s) (on-path s path)) NIL) 
+		((final-state s) (append path (list s)))
+		(t (mult-dfs (succ-fn s) (append path (list s))))
+  	)
+)
 
 
 ; Function execution examples
