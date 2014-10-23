@@ -1,0 +1,50 @@
+(DFS '()) -> NIL
+(DFS '(W)) -> (W)
+(DFS '(W X)) -> (W X)
+(DFS '(W X Y)) -> (W X Y)
+(DFS '((W X) Y)) -> (W X Y)
+(DFS '((W X) (Y Z))) -> (W X Y Z)
+(DFS '((W (X)) Y (Z))) -> (W X Y Z)
+(DFS '((A (B C) D (E F)))) -> (A B C D E F)
+(DFS '(A (B C) (D) (E (F G)))) -> (A B C D E F G)
+
+(DFID '() 0) -> NIL
+(DFID '(W) 0) -> NIL
+(DFID '(W) 1) -> (W)
+(DFID '(W) 2) -> (W W)
+(DFID '(W X) 1) -> (W X)
+(DFID '((W X) (Y Z)) 2) -> (W X Y Z)
+(DFID '((W (X)) Y (Z))  1) -> (Y)
+(DFID '((W (X)) Y (Z)) 2) -> (Y W Y Z)
+(DFID '((A (B)) C (D)) 3) -> (C A C D A B C D)
+(DFID '(A (B C) (D) (E (F G))) 1) -> (A)
+(DFID '(A (B C) (D) (E (F G))) 2) -> (A A B C D E)
+(DFID '(A (B C) (D) (E (F G))) 3) -> (A A B C D E A B C D E F G)
+
+(FINAL-STATE '(3 3 T)) -> NIL
+(FINAL-STATE '(3 3 NIL)) -> T
+(FINAL-STATE '(1 1 NIL)) -> NIL
+(FINAL-STATE '(1 1 T)) -> NIL
+
+(NEXT-STATE '(3 2 T) 2 0) -> NIL // if there are more c than m on same side
+(NEXT-STATE '(3 2 T) 1 1) -> NIL // if there are more c than m on other side
+(NEXT-STATE '(1 1 T) 2 0) -> NIL // if move more m and c than are on the side of the river
+(NEXT-STATE '(1 1 T) 0 2) -> NIL
+(NEXT-STATE '(3 3 T) 0 1) -> ((0 1 NIL))
+(NEXT-STATE '(3 3 T) 1 1) -> ((1 1 NIL))
+(NEXT-STATE '(3 3 T) 0 2) -> ((0 2 NIL))
+
+(SUCC-FN '(3 3 T)) -> ((0 1 NIL) (1 1 NIL) (0 2 NIL))
+(SUCC-FN '(0 1 NIL)) -> ((3 3 T))
+(SUCC-FN '(0 1 T)) -> ((3 3 NIL))
+
+(ON-PATH '(3 3 T) '()) -> NIL
+(ON-PATH '(3 3 T) '((1 1 T) (2 2 NIL))) -> NIL
+(ON-PATH '(3 3 T) '((1 1 T) (2 2 NIL) (3 3 T))) -> T
+
+(MULT-DFS '((0 1 NIL) (1 1 NIL) (0 2 NIL)) '((3 3 T))) -> ((3 3 T) (1 1 NIL) (3 2 T) (0 3 NIL) (3 1 T) (2 2 NIL) (2 2 T) (3 1 NIL) (0 3 T) (3 2 NIL) (1 1 T) (3 3 NIL))
+(MULT-DFS NIL '((3 3 T))) -> NIL
+
+(MC-DFS '(3 3 T) NIL) -> ((3 3 T) (1 1 NIL) (3 2 T) (0 3 NIL) (3 1 T) (2 2 NIL) (2 2 T) (3 1 NIL) (0 3 T) (3 2 NIL) (1 1 T) (3 3 NIL))
+(MC-DFS '(3 3 NIL) NIL) -> ((3 3 NIL))
+(MC-DFS '(1 1 NIL) '((3 3 T) (1 1 NIL) (3 2 T))) -> NIL

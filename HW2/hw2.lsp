@@ -1,3 +1,7 @@
+;; Jessica Pham
+;; UID: 004153744
+;; Fall 2014, CS 161
+
 ; 1. Write a single pure LISP function, called DFS, that performs a
 ; depth-first search of a tree. The function should take a single
 ; argument that is the list representation of the tree, and return a
