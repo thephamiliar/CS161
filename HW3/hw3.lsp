@@ -356,8 +356,40 @@
 ; The Lisp 'time' function can be used to measure the 
 ; running time of a function call.
 ;
+; count number of moveable boxes
 (defun h004153744 (s)
+	(cond ((> (isNonMoveable s) 0) 999)
+		(t (countBoxes s))
+	)
   )
+
+(defun isNonMoveable (s)
+
+)
+
+(defun findCornerBoxes (s)
+
+)
+
+; gives a list of positions (r c) for all boxes in state
+(defun findBoxes (s r)
+	(cond ((or (NULL s) (>= r (length s))) NIL)
+		(t (append (findBoxesRow s r 0) (findBoxes s (+ r 1))))
+	)
+)
+
+(defun findBoxesRow (s r c)
+	(let* ((boxList '()))
+		(cond ((isBox (get-square s r c)) (append boxList (list r c) (findBoxesRow s r (+ c 1))))
+			(t (append boxList (findBoxesRow s r (+ c 1)))))
+		boxList
+	)
+)
+
+; Manhatten distance
+(defun manhatten (s)
+
+)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
