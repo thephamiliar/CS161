@@ -366,10 +366,8 @@
 (defun isNonMoveable (s boxes)
 	(let ((box (car boxes)))
 		(cond ((or (NULL s) (NULL boxes)) NIL)
-			  ((or (and (equal NIL (try-moveBox1 s (first box) (second box) 'LEFT))
-					(or (equal NIL (try-moveBox1 s (first box) (second box) 'UP)) (equal NIL (try-moveBox1 s (first box) (second box) 'DOWN))))
-					(and (equal NIL (try-moveBox1 s (first box) (second box) 'RIGHT))
-					(or (equal NIL (try-moveBox1 s (first box) (second box) 'UP)) (equal NIL (try-moveBox1 s (first box) (second box) 'DOWN))))) t)
+			  ((and (or (equal NIL (try-moveBox1 s (first box) (second box) 'LEFT)) (equal NIL (try-moveBox1 s (first box) (second box) 'RIGHT)))
+					(or (equal NIL (try-moveBox1 s (first box) (second box) 'UP)) (equal NIL (try-moveBox1 s (first box) (second box) 'DOWN)))) t)
 				(t (isNonMoveable s (cdr boxes)))
 		)
 	)
@@ -382,8 +380,8 @@
   (let* ((r1 (car (getNextSquareCoord s r c d)))	; new positions
 	 (c1 (cadr (getNextSquareCoord s r c d)))
 	 (v (get-square s r1 c1)))
-		(cond ((or (equal NIL v) (isWall v) (isBox v) (isBoxStar v)) NIL)	;if next square is wall or box or box square, can't move
-			((or (isBlank v) (isStar v) (isKeeper v) (isKeeperStar v)) T)
+		(cond ((or (equal NIL v) (isWall v)) NIL)	;if next square is wall or box or box square, can't move
+			(t t)
 		)
 	)
 )
@@ -395,6 +393,7 @@
 	)
 )
 
+; find all the boxes in the row and give the positions
 (defun findBoxesRow (s r c)
 	(cond ((or (NULL s) (>= c (length (car (nthcdr r s))))) NIL)
 		((isBox (get-square s r c)) (cons (list r c) (cleanUpList (findBoxesRow s r (+ c 1)))))
