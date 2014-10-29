@@ -285,9 +285,8 @@
 	)
 )
 
-;
+; checks wheter can move box, if it can it moves the box and updates the last position
 (defun try-moveBox (s r c d)
-		;nil
   (let* ((r1 (car (getNextSquareCoord s r c d)))	; new positions
 	 (c1 (cadr (getNextSquareCoord s r c d)))
 	 (v (get-square s r1 c1)))
@@ -356,39 +355,50 @@
 ; The Lisp 'time' function can be used to measure the 
 ; running time of a function call.
 ;
-; count number of moveable boxes
+; count number of immoveable boxes
 (defun h004153744 (s)
-	(cond ((> (isNonMoveable s) 0) 999)
+	(cond ((isNonMoveable s (findBoxes s 0)) 999)
 		(t (countBoxes s))
 	)
   )
 
-(defun isNonMoveable (s)
-
+; given the state and the list of boxes, checks if box is moveable
+(defun isNonMoveable (s boxes)
+	(let ((box (car boxes)))
+		(cond ((or (NULL s) (NULL boxes)) NIL)
+			  ((or (and (equal NIL (try-moveBox1 s (first box) (second box) 'LEFT))
+					(or (equal NIL (try-moveBox1 s (first box) (second box) 'UP)) (equal NIL (try-moveBox1 s (first box) (second box) 'DOWN))))
+					(and (equal NIL (try-moveBox1 s (first box) (second box) 'RIGHT))
+					(or (equal NIL (try-moveBox1 s (first box) (second box) 'UP)) (equal NIL (try-moveBox1 s (first box) (second box) 'DOWN))))) t)
+				(t (isNonMoveable s (cdr boxes)))
+		)
+	)
 )
 
-(defun findCornerBoxes (s)
-
+; modification to try-moveBox
+; returns nil if cant move in direciton d
+; returns t if can move
+(defun try-moveBox1 (s r c d)
+  (let* ((r1 (car (getNextSquareCoord s r c d)))	; new positions
+	 (c1 (cadr (getNextSquareCoord s r c d)))
+	 (v (get-square s r1 c1)))
+		(cond ((or (equal NIL v) (isWall v) (isBox v) (isBoxStar v)) NIL)	;if next square is wall or box or box square, can't move
+			((or (isBlank v) (isStar v) (isKeeper v) (isKeeperStar v)) T)
+		)
+	)
 )
 
 ; gives a list of positions (r c) for all boxes in state
 (defun findBoxes (s r)
 	(cond ((or (NULL s) (>= r (length s))) NIL)
-		(t (append (findBoxesRow s r 0) (findBoxes s (+ r 1))))
+		(t (cleanUpList (append (findBoxesRow s r 0) (findBoxes s (+ r 1)))))
 	)
 )
 
 (defun findBoxesRow (s r c)
-	(let* ((boxList '()))
-		(cond ((isBox (get-square s r c)) (append boxList (list r c) (findBoxesRow s r (+ c 1))))
-			(t (append boxList (findBoxesRow s r (+ c 1)))))
-		boxList
-	)
-)
-
-; Manhatten distance
-(defun manhatten (s)
-
+	(cond ((or (NULL s) (>= c (length (car (nthcdr r s))))) NIL)
+		((isBox (get-square s r c)) (cons (list r c) (cleanUpList (findBoxesRow s r (+ c 1)))))
+		(t (cleanUpList (findBoxesRow s r (+ c 1)))))
 )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
