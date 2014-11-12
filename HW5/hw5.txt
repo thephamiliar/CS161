@@ -1,0 +1,117 @@
+Jessica Pham
+UID: 004153744
+
+1. a) P => ¬ Q, 	Q => ¬ P
+	 (¬ P v ¬ Q),  (¬ Q v ¬ P)
+	W |	P 	Q |	P => ¬ Q |	Q => ¬ P | 	KB
+	1 |	1	1 |		-	 | 	 	-	 |	-		
+	2 |	1	0 |		1	 |		1	 |	1
+	3 |	0 	1 |		1	 |		1	 |	1
+	4 |	0 	0 |		1	 |		1	 |	1
+	Since M(P => ¬ Q) = { 2, 3, 4 } == M(Q => ¬ P) = { 2, 3, 4 }, the two sentences are equivalent.
+
+	b) P <=> ¬ Q, 					((P ^ ¬ Q) v (¬ P ^ Q))
+	  ((¬ P v ¬ Q) ^ (Q v P)), 		((P ^ ¬ Q) v (¬ P ^ Q))
+	W |	P 	Q	|(¬ P v ¬ Q)  (Q v P)	((¬ P v ¬ Q) ^ (Q v P))	  |	(P ^ ¬ Q)  (¬ P ^ Q)  ((P ^ ¬ Q) v (¬ P ^ Q))	|		KB
+	1 |	1	1	|	-			 1					-			  |		-			-				-				|		-	
+	2 |	1	0 	|	1			 1					1			  |		1			-				1				|		1
+	3 |	0 	1	|	1			 1					1			  |		-			1				1				|		1
+	4 |	0 	0 	|	1			 -					-			  |		-			-				-				|		-
+	Since M(P <=> ¬ Q) = { 2, 3 } == M(((P ^ ¬ Q) v (¬ P ^ Q))) = { 2, 3 }, the two sentences are equivalent.
+
+2. 	a) (Smoke => Fire) 	=> 	(¬ Smoke => ¬ Fire)
+	  (¬ Smoke v Fire)  =>	(Smoke v ¬ Fire)
+	  ¬(¬ Smoke v Fire) v (Smoke v ¬ Fire)
+	  (Smoke ^ ¬ Fire) v (Smoke v ¬ Fire)
+	W |	S 	F |	(S ^ ¬ F) |	( S v ¬ F) 
+	1 |	1	1 |		-	  | 	1	 		
+	2 |	1	0 |		1	  |		1	 	
+	3 |	0 	1 |		-	  |		-	 	
+	4 |	0 	0 |		-	  |		1	 	
+	Let A = M((Smoke ^ ¬ Fire)) = { 2 }
+	Let B = M((Smoke v ¬ Fire)) = { 1, 2, 4 }
+	M(A v B) = { 1, 2, 4 }
+	The sentence is only true for worlds 1, 2, and 4. Therefore, because it is true for some worlds but not true for all worlds, this sentence is NEITHER VALID NOR UNSATISFIABLE.
+
+	b) (Smoke => Fire)	=> 	((Smoke v Heat) => Fire)
+	  (¬ Smoke v Fire)	=> 	((¬ Smoke ^ ¬ Heat) v Fire)
+	  ¬ (¬ Smoke v Fire) v ((¬ Smoke ^ ¬ Heat) v Fire)
+	  (Smoke ^ ¬ Fire) v ((¬ Smoke ^ ¬ Heat) v Fire)
+	W |	S 	F	H |	(S ^ ¬ F) |	(¬ S ^ ¬ H)  F  ((¬ S ^ ¬ H) v F) 
+	1 |	1	1 	1 |		-	  | 	 -	  	 1			1
+	2 |	1	0 	0 |		1	  |		 -	 	 - 			-
+	3 |	0 	1 	0 |		-	  |		 1		 1			1
+	4 |	0 	0 	1 |		-	  |		 -		 -			-
+	5 |	1   1   0 |		-	  |		 -		 1			1
+	6 | 0   1   1 |		-	  |		 -		 1			1
+	7 | 1	0   1 |		1	  |		 -		 -			-
+	8 | 0   0   0 |		-	  |		 1		 -			1
+	Let A = M((Smoke ^ ¬ Fire)) = { 2, 7 }
+	Let B = M(((¬ Smoke ^ ¬ Heat) v Fire)) = { 1, 3, 5, 6, 8 }
+	M(A v B) = { 1, 2, 3, 5, 6, 7, 8 }
+	The sentence is true for all the worlds except 4. Therefore, because it is true for most of the worlds but not all, this sentence is NEITHER VALID NOR UNSATISFIABLE.
+
+	c) ((Smoke ^ Heat) => Fire)		<=>		((Smoke => Fire) v (Heat => Fire))
+	  ((¬ Smoke v ¬ Heat) v Fire)	<=>		((¬ Smoke v Fire) v (¬ Heat v Fire))
+	  (¬ Smoke v ¬ Heat v Fire) 	<=> 	(¬ Smoke v Fire v ¬ Heat)
+	  [¬ Smoke v ¬ Heat v Fire) => (¬ Smoke v Fire v ¬ Heat)] ^ [(¬ Smoke v Fire v ¬ Heat) => (Smoke v ¬ Heat v Fire)]
+	  [(Smoke ^ Heat ^ ¬ Fire) v (¬ Smoke v Fire v ¬ Heat)] ^ [(Smoke ^ ¬ Fire v Heat) v (Smoke v ¬ Heat v Fire)]
+
+	W |	S 	F	H | [(Smoke ^ Heat ^ ¬ Fire) v (¬ Smoke v Fire v ¬ Heat)] |	[(Smoke ^ ¬ Fire v Heat) v (Smoke v ¬ Heat v Fire)]
+	1 |	1	1 	1 |		 					 1 	  						  | 	 	 				 1
+	2 |	1	0 	0 |							 1	 	 					  |		 					 1
+	3 |	0 	1 	0 |							 1	 	   			   		  |							 1 
+	4 |	0 	0 	1 |		 					 1	 	   					  |		 					 1	
+	5 |	1   1   0 |		 					 1	 	 					  |							 1 
+	6 | 0   1   1 |							 1	 	  					  |		 					 1
+	7 | 1	0   1 |							 1	 	   					  |							 1
+	8 | 0   0   0 |		  					 1	 	   					  |		 					 1
+	Let A = M(((Smoke ^ Heat) => Fire) = { 1-8 }
+	Let B = M(((Smoke => Fire) v (Heat => Fire))) = { 1-8 }
+	M(A ^ B) = { 1-8 }
+	The sentence is true for worlds 1-8. Therefore, because it is true for all the worlds, this sentence is VALID.
+
+3. 	a) Mythical => Immortal
+	  ¬ Mythical => Mammal
+	  Immortal v Mammal => Horned
+	  Horned => Magical
+   	b) (¬ Mythical v Immortal) ^ (¬ Immortal v Mythical)
+   	  (Mythical v Mammal) ^ (¬ Mammal v ¬ Mythical)
+   	  (¬ Immortal v Horned) ^ (¬ Mammal v Horned) ^ (¬ Horned v Immortal v Mammal)
+   	  (¬ Horned v Magical) ^ (¬ Magical v Horned)
+   	c) Let M = Mythical, I = Immortal, A = Mammal, H = Horned, G = Magical
+   	   KB:  1. (¬ M v I)
+   	   		2. (¬ I v M)
+   	  		3. (M v A)
+   	  		4. (¬ A v ¬ M)
+   	  		5. (¬ I v H)
+   	  		6. (¬ A v H)
+   	  		7. (¬ H v I v A)
+   	  		8. (¬ H v G)
+   	  		9. (¬ G v H)
+   	   Mythical:
+   	   		10. ¬ M 	to prove contradiction
+   	   		11. ¬ I 	2 & 10
+   	   		12. A 		3 & 10
+   	   		13. H 		6 & 12
+   	   		14. G 		8 & 13
+   	   		15. ¬ M v H 1 & 5
+   	   		16. I v A 	1 & 3
+   	   	There is no contradiction, therefore we cannot prove that the unicorn is mythical.
+
+   	   Magical:
+   	   		10. ¬ G		to prove contradiction
+   	   		11. ¬ H 	8 & 10
+   	   		12. ¬ I 	5 & 11
+   	   		13. ¬ A 	6 & 11
+   	   		14. ¬ M 	1 & 12
+   	   		15. M 		3 & 13
+   	   	Contradiction with 14 and 15, therefore by proof of contradiction we can prove that the unicorn is mythical.
+
+   	   Horned:
+   	   		10. ¬ H 	to prove contradiction
+   	   		11. ¬ I 	5 & 10
+   	   		12. ¬ A 	6 & 10
+   	   		13. ¬ M 	1 & 11
+   	   		14. M 		3 & 11
+   	   	Contradiction with 13 and 14, therefore by proof of contradiction we can prove that the unicorn is horned.
